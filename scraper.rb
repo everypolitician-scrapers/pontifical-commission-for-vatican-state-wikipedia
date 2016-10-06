@@ -27,7 +27,7 @@ def scrape_list(url)
       wikiname: li.at_xpath('.//a[not(@class="new")][1]/@title').text,
       party_id: "_ind",
       party: "n/a",
-      term: 2011,
+      term: 2016,
     }
     ScraperWiki.save_sqlite([:name, :term], data)
   end
