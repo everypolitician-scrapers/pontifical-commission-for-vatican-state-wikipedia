@@ -4,11 +4,14 @@
 require 'pry'
 require 'scraped'
 require 'scraperwiki'
+require 'wikidata_ids_decorator'
 
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 
 class MembersPage < Scraped::HTML
+  decorator WikidataIdsDecorator::Links
+
   field :members do
     noko.xpath('//h2[span[@id="Members"]]/following-sibling::ul[1]/li').map do |li|
       fragment(li => MemberRow).to_h
@@ -17,6 +20,10 @@ class MembersPage < Scraped::HTML
 end
 
 class MemberRow < Scraped::HTML
+  field :id do
+    noko.css('a/@wikidata').map(&:text).first
+  end
+
   field :name do
     noko.at_css('a').text.tidy
   end
