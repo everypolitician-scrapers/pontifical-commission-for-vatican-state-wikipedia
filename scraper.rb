@@ -13,7 +13,7 @@ class MembersPage < Scraped::HTML
   decorator WikidataIdsDecorator::Links
 
   field :members do
-    noko.xpath('//h2[span[@id="Members"]]/following-sibling::ul[1]/li').map do |li|
+    noko.xpath('//h3[span[@id="Current"]]/following-sibling::ul[1]/li').map do |li|
       fragment(li => MemberRow).to_h
     end
   end
